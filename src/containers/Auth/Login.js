@@ -9,23 +9,22 @@ function Login() {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        login({ email, password }, dispatch, navigate)
+        await login({ email, password }, dispatch, navigate)
     };
 
     return (
         <div className='login-container'>
             <form className='form-control login-form' onSubmit={handleSubmit}>
-                <div className='title'>Login</div>
+                <div className='title'>Welcome to Booking Medical</div>
                 <div className="form-group email">
                     <label>Email: </label>
-                    <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Enter email" />
+                    <input required type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Enter email" />
                 </div>
                 <div className="form-group password">
                     <label>Password</label>
-                    <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} id="password" placeholder="Password" />
+                    <input required type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} id="password" placeholder="Password" />
                 </div>
                 <div className='forgot-password'>
                     <Link to='/forgot-password'>Forgot password?</Link>
@@ -33,7 +32,7 @@ function Login() {
                 <button type="submit" className="btn btn-login">Login</button>
                 <div className='register'>
                     Don't have an account?
-                    <Link to='/register' >Register</Link>
+                    <Link to='/user-register' >Register</Link>
                 </div>
             </form>
         </div>

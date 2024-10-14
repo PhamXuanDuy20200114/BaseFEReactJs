@@ -3,17 +3,14 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    background-image: url('../../assets/images/BackgroundLogin.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    backdrop-filter: blur(60px);
+    background-color: #193B48;
+    opacity: 0.8;
 
     .login-form {
-        color: #fff;
+        color: #193B48;
         width: 350px;
         height: 380px;
-        background: transparent;
+        background: #fff;
 
         border: 2px solid rgba(255, 255, 255, 0.5);
 
@@ -42,7 +39,8 @@
 
         button {
             width: 300px;
-            background-color: #fff;
+            background-color: #193B48;
+            color: #fff;
             border-radius: 20px;
             margin: 10px 20px;
 

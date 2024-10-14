@@ -1,0 +1,65 @@
+.user-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    background-color: #E5E9F5;
+
+    .user-content {
+        width: 75%;
+
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #193B48;
+            margin-top: 20px;
+        }
+
+        .table-container {
+            margin-top: 10px;
+
+            .table-header {
+                background-color: #193b48;
+                color: #fff;
+            }
+        }
+    }
+}
+
+;
+
+.birthday-gender {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-content {
+    width: 600px;
+
+    .input-image {
+        display: flex;
+        flex-direction: column;
+
+        .input-container {
+            display: flex;
+            flex-direction: row;
+
+            .file {
+                font-size: 14px;
+                width: 96px;
+                height: 35px;
+            }
+
+            .preview-img {
+                width: 100px;
+                height: 100px;
+                margin-left: 20px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+
+    }
+}
