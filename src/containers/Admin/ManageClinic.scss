@@ -36,9 +36,45 @@
         }
 
         .table-container {
+            font-size: 14px;
+
             .table-header {
                 background-color: #193b48;
                 color: #fff;
+            }
+
+            .tb-row {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .stt {
+                width: 3%;
+            }
+
+            .name {
+                width: 16%;
+            }
+
+            .address {
+                width: 24%;
+            }
+
+            .email {
+                width: 15%;
+            }
+
+            .sdt {
+                width: 15%;
+            }
+
+            .web {
+                width: 15%;
+            }
+
+            .act {
+                width: 12%;
             }
         }
 

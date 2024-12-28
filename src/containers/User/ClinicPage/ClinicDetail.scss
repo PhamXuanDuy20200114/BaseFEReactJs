@@ -1,0 +1,198 @@
+.clinic-detail-container {
+    .clinic-detail-content {
+        .background {
+            width: 100%;
+            height: 320px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            margin: 0 168px;
+            height: 170px;
+            margin-top: -70px;
+            margin-bottom: 20px;
+            border: 1px solid #E0E0E0;
+            background-color: rgba(255, 255, 255, 0.8);
+
+            .clinic-image {
+                background-color: #FFFFFF;
+                width: 10%;
+                z-index: 1;
+                height: 110px;
+                margin-left: 30px;
+                border: 1px solid #E0E0E0;
+                border-radius: 5px;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+            }
+
+            .clinic-name-address {
+                margin-left: 20px;
+                z-index: 1;
+                width: 70%;
+
+                .name {
+                    font-size: 30px;
+                    font-weight: 500;
+                    color: #224a50;
+                }
+
+                .address {
+                    font-size: 16px;
+                    color: #4F4F4F;
+                    margin-top: 5px;
+
+                    p {
+                        margin: 0;
+                    }
+                }
+            }
+
+            .clinic-phone-email {
+                font-size: 12px;
+                margin-top: 90px;
+                width: 20%;
+            }
+        }
+
+
+
+        .more-info {
+            margin: 0 168px;
+
+            h3 {
+                margin-top: 20px;
+                font-size: 20px;
+                font-weight: 500;
+                color: #337AB7;
+            }
+
+            h4 {
+                margin-top: 10px;
+                font-size: 16px;
+                font-weight: 500;
+                color: #000;
+            }
+
+            ul {
+                margin-top: 10px;
+                font-size: 14px;
+            }
+
+            img {
+                display: flex;
+                margin: auto;
+            }
+        }
+
+        .comment {
+            padding: 0 168px;
+            background-color: #FFFFFF;
+
+            .comment-title {
+                font-size: 20px;
+                font-weight: 500;
+                color: #020202;
+                margin-top: 20px;
+            }
+
+            .comment-content {
+                margin-top: 20px;
+                padding: 10px;
+
+
+                .comment-form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+
+                    textarea {
+                        width: 100%;
+                        padding: 5px;
+                        border-radius: 5px;
+                        border: 1px solid #E0E0E0;
+                        font-size: 16px;
+                        color: #333;
+                        resize: none;
+                    }
+
+                    button {
+                        width: 70px;
+                        height: 30px;
+                        border: none;
+                        border-radius: 5px;
+                        background-color: #0BB2EF;
+                        color: #FFFFFF;
+                        font-size: 16px;
+                        cursor: pointer;
+                        margin-left: auto;
+                    }
+                }
+            }
+
+            .comment-list {
+                display: flex;
+                flex-direction: column;
+                margin-top: 20px;
+
+                .comment-item {
+                    width: 100%;
+                    padding: 10px;
+
+                    .comment-header {
+                        display: flex;
+                        gap: 20px;
+                        justify-content: space-between;
+                        padding-top: 10px;
+                        border-top: 1px solid #E0E0E0;
+
+                        .left {
+                            display: flex;
+                            gap: 10px;
+                            align-items: center;
+                            justify-content: center;
+
+                            .user-name {
+                                font-size: 16px;
+                                font-weight: 500;
+                                color: #020202;
+                            }
+
+                            .comment-time {
+                                font-size: 14px;
+                                color: #4DC5D4;
+                            }
+                        }
+
+                    }
+
+                    .comment-content {
+                        font-size: 16px;
+                        color: #333;
+                        margin-top: 0;
+                        padding: 0;
+                        display: flex;
+                        flex-direction: column;
+
+                        input {
+                            margin-top: 5px;
+                        }
+
+                        .btn-group {
+                            display: flex;
+                            gap: 10px;
+                            width: 150px;
+                            margin-left: auto;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

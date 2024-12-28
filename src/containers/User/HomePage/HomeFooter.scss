@@ -1,0 +1,35 @@
+.home-footer {
+    height: 80px;
+    background-color: #EDFFFA;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 168px;
+
+    .text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #020202;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .medical-app {
+        margin-top: 20px;
+        display: flex;
+        gap: 5px;
+        font-size: 25px;
+
+        .facebook {
+            color: #3b5998;
+        }
+
+        .tiktok {
+            color: #000;
+        }
+
+        .youtube {
+            color: #FF0000;
+        }
+    }
+}

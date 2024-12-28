@@ -11,7 +11,7 @@ function AdminSidebars() {
         <div className="side-container">
             <div className="title">
                 <div className="logo"></div>
-                <div className='text'>BOOKING MEDICAL</div>
+                <div className='text'>MEDICAL BOOKING </div>
             </div>
             <NavLink to="/admin/manage-user" className="item" activeclassname="active" exact='true'><FaUser />&nbsp; Người dùng</NavLink>
             <NavLink to="/admin/manage-doctor" className="item"><FaUserDoctor /> &nbsp; Bác sĩ</NavLink>

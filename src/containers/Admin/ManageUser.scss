@@ -9,19 +9,45 @@
 
         .title {
             font-size: 16px;
-            font-weight: bold;
             margin-bottom: 10px;
-            text-align: center;
-            color: #193B48;
-            margin-top: 20px;
+            font-weight: 600;
+            margin: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .btn-add {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+
+                .icon {
+                    margin-bottom: 3px;
+                    width: 20px;
+                    height: 20px;
+                }
+            }
         }
 
         .table-container {
             margin-top: 10px;
+            font-size: 14px;
 
             .table-header {
                 background-color: #193b48;
                 color: #fff;
+            }
+
+            .tb-row {
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }
@@ -61,5 +87,9 @@
             }
         }
 
+    }
+
+    .birthday-gender {
+        margin-bottom: 20px;
     }
 }

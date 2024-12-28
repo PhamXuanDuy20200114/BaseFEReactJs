@@ -1,0 +1,46 @@
+.doctor-more-info {
+    color: #212552;
+    border-left: 1px solid #E0E0E0;
+    padding-left: 20px;
+    flex: 1;
+
+
+    .address {
+        .address-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .clinic {
+            font-size: 14px;
+            font-weight: 500;
+            color: black;
+        }
+
+        .clinic-address {
+            font-size: 14px;
+        }
+    }
+
+    .price {
+        .price-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .price-value {
+            font-size: 14px;
+        }
+    }
+
+    .payment {
+        .payment-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .payment-value {
+            font-size: 14px;
+        }
+    }
+}

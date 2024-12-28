@@ -21,7 +21,7 @@ export const login = async (user, dispatch, navigate) => {
                 navigate('/admin/manage-user')
             }
             if (resUser.roleId === 'R2') {
-                navigate('/doctor')
+                navigate('/doctor/manage-schedule')
             }
             if (resUser.roleId === 'R3') {
                 navigate('/home')

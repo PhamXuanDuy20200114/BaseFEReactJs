@@ -1,0 +1,50 @@
+.doctor-schedule {
+    flex: 1;
+
+    .selected-day {
+        border: none;
+        border-bottom: 1px solid #4EA0AA;
+        color: #4EA0AA;
+    }
+
+    .title {
+        font-size: 16px;
+        margin: 15px 0;
+        font-weight: 600px;
+
+        .icon {
+            margin-bottom: 5px;
+            margin-right: 3px;
+            font-size: 14px;
+        }
+    }
+
+    .list-time {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+
+        .btn-time {
+            width: 120px;
+            height: 36px;
+            background-color: hsl(195, 9%, 74%);
+            border: none;
+            border-radius: 2px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+    }
+
+    .choose {
+        .icon {
+            margin-bottom: 2px;
+        }
+    }
+}

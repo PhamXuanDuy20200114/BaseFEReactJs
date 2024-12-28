@@ -19,8 +19,6 @@ function RegisterUser() {
         const res = await registerUser(data)
         if (res.errCode === 0) {
             navigate('/login')
-        } else {
-            alert(res.message)
         }
     };
     const handleDateChange = (date) => {
@@ -41,13 +39,15 @@ function RegisterUser() {
         <div className='register-container '>
             <form className='form-control register-form ' onSubmit={handleSubmit}>
                 <div className='title'>Đăng ký tài khoản</div>
-                <div className="form-group item ">
-                    <label>Email: </label>
-                    <input required type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Nhập email" />
-                </div>
-                <div className="form-group item ">
-                    <label>Mật khẩu</label>
-                    <input required type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} id="password" placeholder="Nhập mật khẩu" />
+                <div>
+                    <div className="form-group item ">
+                        <label>Email: </label>
+                        <input required type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Nhập email" />
+                    </div>
+                    <div className="form-group item ">
+                        <label>Mật khẩu</label>
+                        <input required type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} id="password" placeholder="Nhập mật khẩu" />
+                    </div>
                 </div>
                 <div className="form-group item ">
                     <label>Họ và tên</label>
@@ -85,7 +85,10 @@ function RegisterUser() {
                         </select>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-register">Đăng ký</button>
+
+                <div>
+                    <button type="submit" className="btn btn-register">Đăng ký</button>
+                </div>
             </form>
         </div>
     );

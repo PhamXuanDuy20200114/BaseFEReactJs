@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../store/apiRequest/authRequest';
+import axios from 'axios';
 import './Login.scss'
 function Login() {
     const [email, setEmail] = useState('');
@@ -11,7 +11,29 @@ function Login() {
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login({ email, password }, dispatch, navigate)
+        try {
+            const res = await axios.post('http://localhost:8080/api/login', { email, password })
+            const errCode = res.data.errCode;
+            if (errCode === 0) {
+                const resUser = res.data.data;
+                const token = res.data.token;
+                localStorage.setItem('token', token);
+                localStorage.setItem('refreshToken', resUser.refreshtoken);
+                localStorage.setItem('id', resUser.id);
+                localStorage.setItem('roleId', resUser.roleId);
+                if (resUser.roleId === 'R1') {
+                    navigate('/admin/manage-user')
+                }
+                if (resUser.roleId === 'R2') {
+                    navigate('/doctor/manage-schedule')
+                }
+                if (resUser.roleId === 'R3') {
+                    navigate('/home')
+                }
+            }
+        } catch (e) {
+            console.log('err: ', e)
+        }
     };
 
     return (
@@ -32,7 +54,7 @@ function Login() {
                 <button type="submit" className="btn btn-login">Login</button>
                 <div className='register'>
                     Don't have an account?
-                    <Link to='/user-register' >Register</Link>
+                    <Link to='/register' >Register</Link>
                 </div>
             </form>
         </div>

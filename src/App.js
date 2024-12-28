@@ -8,8 +8,12 @@ import Login from './containers/Auth/Login';
 import ProtectedRoute from './utils/ProtectedRoute';
 import CustomScrollbars from './components/CustomScrollbars';
 import RegisterUser from './containers/Auth/RegisterUser';
+import RegisterDoctor from './containers/Auth/RegisterDoctor';
+import HomePage from './containers/User/HomePage/HomePage';
 function App() {
   const adminRoutes = routes.admin;
+  const doctorRoutes = routes.doctor;
+  const userRoutes = routes.user;
   const roleId = localStorage.getItem('roleId');
   return (
     <div>
@@ -18,13 +22,24 @@ function App() {
           <div>
             <CustomScrollbars style={{ height: '100vh' }}>
               <Routes>
+                {roleId === 'R1' && <Route path='/' element={<Navigate to='/admin/manage-user' />} />}
+                {roleId === 'R2' && <Route path='/' element={<Navigate to='/doctor/manage-schedule' />} />}
+                <Route path='/home' element={<HomePage />} />
                 {adminRoutes.map((route, index) => {
                   return <Route key={index} path={route.path} element={<ProtectedRoute component={route.component} acceptRole={'R1'} />} />;
                 })}
+                {doctorRoutes.map((route, index) => {
+                  return <Route key={index} path={route.path} element={<ProtectedRoute component={route.component} acceptRole={'R2'} />} />;
+                })}
+                {
+                  userRoutes.map((route, index) => {
+                    return <Route key={index} path={route.path} element={route.component} />;
+                  })
+                }
                 <Route path='/login' element={<Login />} />
-                <Route path='/' element={roleId === 'R1' ? <Navigate to='/admin/manage-user' /> : <Navigate to='/Login' />} />
-                <Route path='*' element={<Navigate to='/404-not-found' />} />
-                <Route path='/user-register' element={<RegisterUser />} />
+                <Route path='*' element={<Navigate to='/' />} />
+                <Route path='/register' element={<RegisterUser />} />
+                <Route path='/doctor-register' element={<RegisterDoctor />} />
                 <Route path='/404-not-found' element={<NotFound />} />
               </Routes>
             </CustomScrollbars>

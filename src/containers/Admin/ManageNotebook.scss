@@ -7,6 +7,93 @@
     .notebook-content {
         width: 75%;
 
-        .table-container {}
+        .title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            margin: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .btn-add {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+
+                .icon {
+                    margin-bottom: 3px;
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+
+        .table-container {
+            font-size: 14px;
+
+            .table-header {
+                background-color: #193b48;
+                color: #fff;
+            }
+
+            .act {
+                width: 150px;
+            }
+
+            .stt {
+                width: 50px;
+            }
+
+            .nb-title {
+                width: 40%;
+            }
+
+            .name {
+                width: 20%;
+            }
+
+            .tb-row {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.modal-content {
+    width: 600px;
+
+    .input-image {
+        display: flex;
+        flex-direction: column;
+
+        .input-container {
+            display: flex;
+            flex-direction: row;
+
+            .file {
+                font-size: 14px;
+                width: 96px;
+                height: 35px;
+            }
+
+            .preview-img {
+                width: 100px;
+                height: 100px;
+                margin-left: 20px;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+
     }
 }

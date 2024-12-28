@@ -1,0 +1,111 @@
+.notebook-detail-container {
+    .notebook-detail-content {
+        background-color: #F5F5F5;
+
+        .header {
+            height: 250px;
+            opacity: 0.65;
+            background-image: url('../../../assets/images/Bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .notebook-detail-info {
+            padding: 20px 168px;
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            .left {
+                width: 70%;
+                padding: 10px 20px;
+                border-radius: 10px;
+                background-color: #FFFFFF;
+
+                .notebook-title {
+                    font-size: 30px;
+                    font-weight: 600;
+                    color: #333;
+                }
+
+                .notebook-more-info {
+                    font-size: 14px;
+
+                    .link {
+                        color: #60CCD9;
+                        font-weight: 500;
+                        margin-top: 10px;
+                        display: inline-block;
+                        cursor: pointer;
+                        text-decoration: none;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+
+                .notebook-content {
+                    font-size: 16px;
+                    color: #333;
+                    margin-top: 10px;
+
+                    ol {
+                        li {
+                            font-size: 20px;
+                            color: #333;
+                            font-weight: 600;
+                            margin-left: -1rem;
+                        }
+                    }
+
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .right {
+                width: 30%;
+                height: fit-content;
+                margin-top: 40px;
+                border-radius: 10px;
+                padding: 10px 20px;
+                padding-bottom: 40px;
+                background-color: #FFFFFF;
+
+                .main {
+                    width: fit-content;
+                    font-size: 24px;
+                    font-weight: 600;
+                    padding-right: 30px;
+                    color: #333;
+                    border-bottom: 4px solid #FFC20F;
+                }
+
+                .title {
+                    font-size: 18px;
+                    color: #333;
+                    margin-top: 15px;
+                }
+
+                .content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    margin-left: 10px;
+                    margin-top: 10px;
+
+                    .content-item {
+                        a {
+                            text-decoration: none;
+                            font-size: 18px;
+                            color: #333;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

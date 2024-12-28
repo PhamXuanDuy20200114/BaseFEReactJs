@@ -1,0 +1,131 @@
+.form-container {
+    .form-content {
+        .booking-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: #F6F6F6;
+            padding: 20px 430px;
+
+            .doctor-image {
+                width: 125px;
+                height: 125px;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                border-radius: 50%;
+                margin-right: 20px;
+            }
+
+            .more-info {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .booking-title {
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+
+                .doctor-name {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #337AB7;
+                }
+
+                .booking-time {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #FEC22D;
+                }
+
+                .clinic {
+                    font-size: 16px;
+                    font-weight: 400;
+
+                    .clinic-name {
+                        font-weight: 500;
+                    }
+
+                    .clinic-address {
+                        font-size: 16px;
+                        font-weight: 400;
+                        margin-left: 22px;
+                    }
+                }
+
+                .icon {
+                    margin-right: 5px;
+                    margin-bottom: 5px;
+                    font-size: 18px;
+                    color: #B7B7B8;
+                }
+            }
+        }
+
+        .price {
+            margin-top: 10px;
+            margin-left: 430px;
+            width: 250px;
+            padding: 20px 0px;
+            text-align: center;
+            border: 1px solid #F89008;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #337AB7;
+        }
+
+        .patient-info {
+            padding: 0 430px;
+
+            .control {
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+                margin-top: 20px;
+
+                .answer {
+                    margin-right: 5px;
+                }
+
+                .gender {
+                    margin-right: 5px;
+                }
+            }
+
+            .title-info {
+                font-size: 14px;
+                font-weight: 500;
+                color: #59B5E4;
+                margin-top: 20px;
+            }
+
+            .form-group {
+
+                .icon {
+                    position: relative;
+                    top: 28px;
+                    left: 10px;
+                    font-size: 18px;
+                    color: #B7B7B8;
+                    z-index: 1;
+                }
+
+                .form-control {
+                    padding-left: 30px;
+                }
+            }
+
+            .btn-booking {
+                width: 100%;
+                margin: 20px 0;
+                font-size: 18px;
+                font-weight: 500;
+                background-color: #FFC419;
+                color: #fff;
+            }
+        }
+
+    }
+}

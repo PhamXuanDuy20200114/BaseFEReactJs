@@ -11,6 +11,7 @@ import 'react-markdown-editor-lite/lib/index.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'react-image-lightbox/style.css';
+import { fetchFile } from '../../utils/fetchFile';
 function ManageClinic() {
     const token = localStorage.getItem('token');
     const refreshToken = localStorage.getItem('refreshToken');
@@ -33,6 +34,8 @@ function ManageClinic() {
     const [descriptionText, setDescriptionText] = useState('');
     const [image, setImage] = useState(null);
     const [urlImage, setUrlImage] = useState('');
+    const [background, setBackground] = useState(null);
+    const [urlBackground, setUrlBackground] = useState('');
     const [isUpdate, setIsUpdate] = useState(false);
 
     const [show, setShow] = useState(false);
@@ -51,6 +54,8 @@ function ManageClinic() {
             setDescriptionText('');
             setUrlImage('');
             setImage(null);
+            setBackground(null);
+            setUrlBackground('');
 
         } else {
             setIndex(index);
@@ -63,63 +68,32 @@ function ManageClinic() {
             setWebsite(clinic.website);
             setDescriptionHTML(clinic.descriptionHTML);
             setDescriptionText(clinic.descriptionText);
-            await fetchFile(clinic.image);
             setUrlImage(clinic.image.replaceAll('\\', '/'));
+            setImage(await fetchFile(clinic.image));
+            setUrlBackground(clinic.background.replaceAll('\\', '/'));
+            setBackground(await fetchFile(clinic.background));
             setIsUpdate(true);
         }
         setShow(true);
     };
-    // Hàm sử dụng Axios để tải file từ URL và lưu vào state
-    const fetchFile = async (imageUrl) => {
-        try {
 
-            // Gửi yêu cầu tải tệp về với responseType là 'blob'
-            const response = await axios.get(imageUrl, {
-                responseType: 'blob',
-            });
-
-            // Lấy mime type của tệp từ phản hồi
-            const mimeType = response.data.type;
-
-            // Xác định phần mở rộng file dựa trên mime type
-            let fileExtension = '';
-            if (mimeType === 'image/jpeg') {
-                fileExtension = 'jpg';
-            } else if (mimeType === 'image/png') {
-                fileExtension = 'png';
-            } else if (mimeType === 'image/gif') {
-                fileExtension = 'gif';
-            } else {
-                console.error('Unsupported file type:', mimeType);
-                return;
-            }
-
-            // Tạo đối tượng File từ Blob
-            const fileName = `image.${fileExtension}`;
-            const file = new File([response.data], fileName, { type: mimeType });
-
-            // Lưu file vào state
-            setImage(file);
-        } catch (error) {
-            console.error('Error fetching the file:', error);
-        }
-    };
     const handleSubmit = async (e, token) => {
         e.preventDefault();
-        if (isUpdate) {
-            try {
-                const data = {
-                    name: name,
-                    address: address,
-                    phonenumber: phonenumber,
-                    provinceId: provinceId,
-                    email: email,
-                    website: website,
-                    descriptionHTML: descriptionHTML,
-                    descriptionText: descriptionText,
-                    image: image
-                }
-                const res = await axios.post(`http://localhost:8080/api/clinics/${clinicId}`, data, {
+        try {
+            const data = {
+                name: name,
+                address: address,
+                phonenumber: phonenumber,
+                provinceId: provinceId,
+                email: email,
+                website: website,
+                descriptionHTML: descriptionHTML,
+                descriptionText: descriptionText,
+                image: image,
+                background: background
+            }
+            if (isUpdate) {
+                const res = await axios.post(`${process.env.REACT_APP_API_PATH}/api/clinics/${clinicId}`, data, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data'
@@ -130,42 +104,8 @@ function ManageClinic() {
                     newListClinics[index] = res.data.data;
                     setListClinics(newListClinics);
                 }
-            } catch (err1) {
-                if (err1.status === 403) {
-                    if (refreshToken) {
-                        try {
-                            const res2 = await axios.post('http://localhost:8080/api/refresh-token', {
-                                refreshToken, id, roleId
-                            })
-                            const newToken = res2.data.accessToken;
-                            localStorage.setItem('token', newToken);
-                            await handleSubmit(e, newToken);
-                        } catch (err2) {
-                            navigate('/login');
-                        }
-                    } else {
-                        navigate('/login');
-                    }
-                }
-                if (err1.status === 401) {
-                    navigate('/login');
-                }
-            }
-
-        } else {
-            try {
-                const data = {
-                    name: name,
-                    address: address,
-                    phonenumber: phonenumber,
-                    provinceId: provinceId,
-                    email: email,
-                    website: website,
-                    descriptionHTML: descriptionHTML,
-                    descriptionText: descriptionText,
-                    image: image
-                }
-                const res = await axios.post('http://localhost:8080/api/clinics', data, {
+            } else {
+                const res = await axios.post(`${process.env.REACT_APP_API_PATH}/api/clinics`, data, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data'
@@ -176,37 +116,49 @@ function ManageClinic() {
                     newListClinics.push(res.data.data);
                     setListClinics(newListClinics);
                 }
-            } catch (err3) {
-                if (err3.status === 403) {
-                    if (refreshToken) {
-                        try {
-                            const res2 = await axios.post('http://localhost:8080/api/refresh-token', {
-                                refreshToken, id, roleId
-                            })
-                            const newToken = res2.data.accessToken;
-                            localStorage.setItem('token', newToken);
-                            await handleSubmit(e, newToken);
-                        } catch (err4) {
-                            navigate('/login');
-                        }
-                    } else {
+            }
+            handleClose();
+        } catch (err1) {
+            if (err1.status === 403) {
+                if (refreshToken) {
+                    try {
+                        const res2 = await axios.post(`${process.env.REACT_APP_API_PATH}/api/refresh-token`, {
+                            refreshToken, id, roleId
+                        })
+                        const newToken = res2.data.accessToken;
+                        localStorage.setItem('token', newToken);
+                        await handleSubmit(e, newToken);
+                    } catch (err2) {
+                        localStorage.clear();
                         navigate('/login');
                     }
-                }
-                if (err3.status === 401) {
+                } else {
+                    localStorage.clear();
                     navigate('/login');
                 }
-
+            }
+            if (err1.status === 401) {
+                localStorage.clear();
+                navigate('/login');
             }
         }
-        handleClose();
     }
-    const handleImageChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);
-            setUrlImage(URL.createObjectURL(e.target.files[0]));
+
+    const handleImageChange = (e, str) => {
+        if (str === 'background') {
+            if (e.target.files[0]) {
+                setBackground(e.target.files[0]);
+                setUrlBackground(URL.createObjectURL(e.target.files[0]));
+            } else {
+                setBackground(null);
+            }
         } else {
-            setImage(null);
+            if (e.target.files[0]) {
+                setImage(e.target.files[0]);
+                setUrlImage(URL.createObjectURL(e.target.files[0]));
+            } else {
+                setImage(null);
+            }
         }
     }
 
@@ -215,35 +167,39 @@ function ManageClinic() {
         setDescriptionText(text);
     }
 
-    const handleDelete = async (id, token) => {
+    const handleDelete = async (clinicId, token) => {
         try {
-            const res = await axios.delete(`http://localhost:8080/api/clinics/${id}`, {
+            const res = await axios.delete(`${process.env.REACT_APP_API_PATH}/api/clinics/${clinicId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
             if (res.data.errCode === 0) {
-                const newListClinics = listClinics.filter(clinic => clinic.id !== id);
+                const newListClinics = listClinics.filter(clinic => clinic.id !== clinicId);
+                console.log(newListClinics);
                 setListClinics(newListClinics);
             }
         } catch (e) {
             if (e.status === 403) {
                 if (refreshToken) {
                     try {
-                        const res2 = await axios.post('http://localhost:8080/api/refresh-token', {
+                        const res2 = await axios.post(`${process.env.REACT_APP_API_PATH}/api/refresh-token`, {
                             refreshToken, id, roleId
                         })
                         const newToken = res2.data.accessToken;
                         localStorage.setItem('token', newToken);
-                        await handleDelete(id, newToken);
+                        await handleDelete(clinicId, newToken);
                     } catch (e) {
+                        localStorage.clear();
                         navigate('/login');
                     }
                 } else {
+                    localStorage.clear();
                     navigate('/login');
                 }
             }
             if (e.status === 401) {
+                localStorage.clear();
                 navigate('/login');
             }
 
@@ -253,7 +209,7 @@ function ManageClinic() {
     useEffect(() => {
         async function getListClinic() {
             try {
-                const res = await axios.get('http://localhost:8080/api/clinics');
+                const res = await axios.get(`${process.env.REACT_APP_API_PATH}/api/clinics`);
                 setListClinics(res.data.data);
             } catch (e) {
                 console.log(e);
@@ -261,7 +217,7 @@ function ManageClinic() {
         }
         async function getListProvince() {
             try {
-                const res = await axios.get('http://localhost:8080/api/allcode/province');
+                const res = await axios.get(`${process.env.REACT_APP_API_PATH}/api/allcodes/provinces`);
                 if (res.data.errCode === 0) {
                     setListProvince(res.data.data);
                 }
@@ -279,25 +235,25 @@ function ManageClinic() {
             <div className='clinic-content'>
                 <AdminHeader />
                 <div className='title'>
-                    <div>Danh sách bệnh viện/phòng khám</div>
+                    <div>Danh sách cơ sở ý tế</div>
                     <button className='btn btn-add' onClick={() => handleShow('add')}><IoIosAddCircle className='icon'></IoIosAddCircle>  Thêm</button>
                 </div>
                 <Table striped bordered hover className='table-container'>
                     <thead >
                         <tr>
-                            <th className='table-header'>STT</th>
-                            <th className='table-header'>Tên bệnh viện/Phòng khám</th>
-                            <th className='table-header'>Địa chỉ</th>
-                            <th className='table-header'>Số điện thoại</th>
-                            <th className='table-header'>Email</th>
-                            <th className='table-header'>Website</th>
-                            <th className='table-header'>Hành động</th>
+                            <th className='table-header stt '>STT</th>
+                            <th className='table-header name'>Tên cơ sở y tế</th>
+                            <th className='table-header address'>Địa chỉ</th>
+                            <th className='table-header sdt'>Số điện thoại</th>
+                            <th className='table-header email'>Email</th>
+                            <th className='table-header web'>Website</th>
+                            <th className='table-header act'>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
                         {Array.isArray(listClinics) && listClinics.length > 0 ? listClinics.map((clinic, index) => {
                             return (
-                                <tr key={index}>
+                                <tr key={index} className='tb-row'>
                                     <td>{index + 1}</td>
                                     <td>{clinic.name}</td>
                                     <td>{clinic.address}</td>
@@ -325,7 +281,7 @@ function ManageClinic() {
                     <Modal.Body>
                         <form className='form-control model-form'>
                             <div className='form-group'>
-                                <label>Tên bệnh viện/Phòng khám</label>
+                                <label>Tên cơ sở y tế</label>
                                 <input type='text' className='form-control' value={name} onChange={(e) => setName(e.target.value)} />
                             </div>
                             <div className='form-group'>
@@ -359,9 +315,19 @@ function ManageClinic() {
                             <div className='form-group input-image'>
                                 <label>Hình ảnh</label>
                                 <div className='input-container'>
-                                    <input type='file' files={[]} className='form-control file' onChange={(e) => handleImageChange(e)} placeholder='Chọn ảnh' ></input>
+                                    <input type='file' files={[]} className='form-control file' onChange={(e) => handleImageChange(e, 'image')} placeholder='Chọn ảnh' ></input>
                                     <div className='preview-img'
                                         style={{ backgroundImage: `url(${urlImage})` }}
+                                    >
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='form-group input-image'>
+                                <label>Ảnh nền</label>
+                                <div className='input-container'>
+                                    <input type='file' files={[]} className='form-control file' onChange={(e) => handleImageChange(e, 'background')} placeholder='Chọn ảnh' ></input>
+                                    <div className='preview-img'
+                                        style={{ backgroundImage: `url(${urlBackground})` }}
                                     >
                                     </div>
                                 </div>

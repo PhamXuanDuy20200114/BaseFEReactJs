@@ -1,0 +1,209 @@
+.doctor-detail-container {
+    height: 100vh;
+
+    .doctor-detail-content {
+        .nav {
+            margin: 0 168px;
+            margin-top: 10px;
+            color: #0BB2EF;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 25px;
+
+            .home-icon {
+                font-size: 20px;
+                margin-top: 1.5px;
+                cursor: pointer;
+            }
+        }
+
+        .doctor-intro {
+            margin: 0 168px;
+            margin-top: 10px;
+            display: flex;
+            gap: 20px;
+
+            .doctor-image {
+                width: 125px;
+                height: 125px;
+                border-radius: 50%;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .doctor-description {
+
+                h4 {
+                    font-size: 22px;
+                    font-weight: 500;
+                    color: #020202;
+                    margin-bottom: 10px;
+                }
+
+                ul {
+                    list-style-type: none;
+                    margin-left: -30px;
+                    font-size: 14px;
+
+                    p {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            .province {
+                font-size: 14px;
+                border-bottom: 1px solid #d0cece;
+                padding-right: 10px;
+                width: fit-content;
+
+                .province-icon {
+                    font-size: 17px;
+                    margin-right: 5px;
+                    margin-bottom: 2px;
+                }
+            }
+        }
+
+        .doctor-schedule-clinic {
+            display: flex;
+            margin: 0 168px;
+            margin-top: 20px;
+        }
+
+        .more-info {
+            margin-top: 20px;
+            background-color: #f5f5f5;
+            padding: 20px 0;
+            border-top: 1px solid #E0E0E0;
+
+            h4 {
+                margin: 10px 168px;
+                margin-top: 20px;
+                font-size: 20px;
+                font-weight: 500;
+                color: #020202;
+            }
+
+            h5 {
+                margin: 0 168px;
+                margin-top: 10px;
+                font-size: 16px;
+                font-weight: 400;
+                color: #000;
+            }
+
+            ul {
+                margin: 0 168px;
+                margin-top: 10px;
+                font-size: 14px;
+            }
+        }
+
+        .comment {
+            padding: 0 168px;
+            background-color: #FFFFFF;
+
+            .comment-title {
+                font-size: 20px;
+                font-weight: 500;
+                color: #020202;
+                margin-top: 20px;
+            }
+
+            .comment-content {
+                margin-top: 20px;
+                padding: 10px;
+
+
+                .comment-form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+
+                    textarea {
+                        width: 100%;
+                        padding: 5px;
+                        border-radius: 5px;
+                        border: 1px solid #E0E0E0;
+                        font-size: 16px;
+                        color: #333;
+                        resize: none;
+                    }
+
+                    button {
+                        width: 70px;
+                        height: 30px;
+                        border: none;
+                        border-radius: 5px;
+                        background-color: #0BB2EF;
+                        color: #FFFFFF;
+                        font-size: 16px;
+                        cursor: pointer;
+                        margin-left: auto;
+                    }
+                }
+            }
+
+            .comment-list {
+                display: flex;
+                flex-direction: column;
+                margin-top: 20px;
+
+                .comment-item {
+                    width: 100%;
+                    padding: 10px;
+
+                    .comment-header {
+                        display: flex;
+                        gap: 20px;
+                        justify-content: space-between;
+                        padding-top: 10px;
+                        border-top: 1px solid #E0E0E0;
+
+                        .left {
+                            display: flex;
+                            gap: 10px;
+                            align-items: center;
+                            justify-content: center;
+
+                            .user-name {
+                                font-size: 16px;
+                                font-weight: 500;
+                                color: #020202;
+                            }
+
+                            .comment-time {
+                                font-size: 14px;
+                                color: #4DC5D4;
+                            }
+                        }
+
+                    }
+
+                    .comment-content {
+                        font-size: 16px;
+                        color: #333;
+                        margin-top: 0;
+                        padding: 0;
+                        display: flex;
+                        flex-direction: column;
+
+                        input {
+                            margin-top: 5px;
+                        }
+
+                        .btn-group {
+                            display: flex;
+                            gap: 10px;
+                            width: 150px;
+                            margin-left: auto;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

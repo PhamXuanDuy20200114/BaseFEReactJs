@@ -1,0 +1,96 @@
+.clinics-container {
+
+    .clinics-content {
+        margin: 0 168px;
+
+        .nav {
+            margin-top: 10px;
+            color: #0BB2EF;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 25px;
+
+            .home-icon {
+                font-size: 20px;
+                margin-top: 1.5px;
+                cursor: pointer;
+            }
+        }
+
+        .list-alphabets {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+
+            .alphabet {
+                font-size: 16px;
+                width: 50px;
+                border: 1px solid #d0cece;
+                text-align: center;
+                cursor: pointer;
+
+                a {
+                    text-decoration: none;
+                    font-weight: 500;
+                    color: #020202;
+                }
+            }
+        }
+
+        .list-clinics {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 20px;
+
+            .list-clinics-alphabet {
+                .alphabet-title {
+                    width: 40px;
+                    text-align: center;
+                    font-size: 24px;
+                    font-weight: 500;
+                    margin-bottom: 10px;
+                    color: #FFFFFF;
+                    background-color: #0BB2EF;
+                }
+
+                .list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                    padding-top: 30px;
+                    border-top: 1px solid #d0cece;
+
+
+                    .clinic-item {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        width: 270px;
+                        height: 235px;
+
+                        .clinic-item-image {
+                            width: 100%;
+                            border-radius: 10px;
+                            border: 1px solid #E0E0E0;
+                            padding: 5px 15px;
+
+                            .img {
+                                height: 140px;
+                                background-position: center;
+                                background-size: contain;
+                                background-repeat: no-repeat;
+                            }
+                        }
+
+                        .clinic-item-name {
+                            font-size: 16px;
+                            font-weight: 500;
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

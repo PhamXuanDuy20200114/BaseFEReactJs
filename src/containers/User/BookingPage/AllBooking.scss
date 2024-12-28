@@ -1,0 +1,95 @@
+.bookings-container {
+
+    .bookings-content {
+        padding: 0 168px;
+        min-height: calc(100vh - 193px);
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            .left {
+                display: flex;
+                align-items: center;
+                font-size: 16px;
+                color: #0BB2EF;
+
+                .title {
+                    font-weight: 500;
+                }
+
+                .home-icon {
+                    font-size: 20px;
+                    color: #0BB2EF;
+                    margin-right: 2px;
+                    margin-bottom: 6px;
+                }
+            }
+
+            .select {
+                width: 150px;
+                height: 30px;
+                padding-left: 5px;
+            }
+
+        }
+
+        .list-booking {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+
+            .booking-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+                border: 1px solid #E5E5E5;
+                padding: 10px 20px;
+                border-radius: 5px;
+                margin-bottom: 10px;
+
+                .info {
+                    display: flex;
+                    gap: 20px;
+                    align-items: center;
+
+                    .doctor-image {
+                        width: 75px;
+                        height: 75px;
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        border-radius: 10px;
+                        margin-bottom: 10px;
+                    }
+
+                    .more {
+                        .name {
+                            font-size: 18px;
+                            font-weight: 500;
+                            color: #337AB7;
+                        }
+
+                        .address {
+                            font-size: 14px;
+                            font-weight: 400;
+                        }
+
+                        .time {
+                            font-size: 14px;
+                            font-weight: 500;
+                            color: #FEC22D;
+                        }
+                    }
+                }
+
+                .right {
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+}

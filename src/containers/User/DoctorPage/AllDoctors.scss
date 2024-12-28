@@ -1,0 +1,66 @@
+.doctors-container {
+
+    .doctors-content {
+        margin: 0 168px;
+
+        .nav {
+            margin-top: 10px;
+            color: #0BB2EF;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 25px;
+
+            .home-icon {
+                font-size: 20px;
+                margin-top: 1.5px;
+                cursor: pointer;
+            }
+        }
+
+        .list-doctors {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+
+            .doctor-item {
+                display: flex;
+                gap: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #d0cece;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                .doctor-item-image {
+                    width: 125px;
+                    height: 125px;
+                    border-radius: 5px;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                }
+
+                .name-specialty {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+
+                    .doctor-item-name {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: #020202;
+                        margin-top: 10px;
+                    }
+
+                    .doctor-item-specialty {
+                        font-size: 14px;
+                        color: #6f7b7f;
+                    }
+                }
+            }
+        }
+    }
+
+}

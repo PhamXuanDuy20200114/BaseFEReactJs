@@ -19,9 +19,7 @@ function ManageUser() {
     const [address, setAddress] = useState('');
     const [phonenumber, setPhonenumber] = useState('');
     const [gender, setGender] = useState('');
-    const [birthdate, setBirthdate] = useState('');
-    const [image, setImage] = useState(null);
-    const [urlImage, setUrlImage] = useState('');
+    const [birthdate, setBirthdate] = useState(new Date().toISOString().split('T')[0]);
     const [index, setIndex] = useState(0);
 
     const token = localStorage.getItem('token');
@@ -30,75 +28,28 @@ function ManageUser() {
     const refreshToken = localStorage.getItem('refreshToken');
 
     const handleClose = () => setShow(false);
-    const handleShow = async (user, index) => {
+    const handleShow = (user, index) => {
         setShow(true);
         setIndex(index);
-        setUserId(user.id);
-        setEmail(user.email);
-        setUsername(user.username);
-        setPhonenumber(user.phonenumber);
-        setBirthdate(user.birthdate);
-        setAddress(user.address);
-        setGender(user.gender);
-        setUrlImage(user.image.replaceAll('\\', '/'));
-        await fetchFile(user.image);
+        setUserId(user && user.id);
+        setEmail(user && user.email);
+        setUsername(user && user.username);
+        setPhonenumber(user && user.phonenumber);
+        setBirthdate(user && user.birthdate);
+        setAddress(user && user.address);
+        setGender(user && user.gender);
     };
-
-    const fetchFile = async (imageUrl) => {
-        try {
-            // Gửi yêu cầu tải tệp về với responseType là 'blob'
-            imageUrl = imageUrl.replaceAll(/\\/g, '/');
-
-            const response = await axios.get(imageUrl, {
-                responseType: 'blob',
-            });
-
-            // Lấy mime type của tệp từ phản hồi
-            const mimeType = response.data.type;
-
-            // Xác định phần mở rộng file dựa trên mime type
-            let fileExtension = '';
-            if (mimeType === 'image/jpeg') {
-                fileExtension = 'jpg';
-            } else if (mimeType === 'image/png') {
-                fileExtension = 'png';
-            } else if (mimeType === 'image/gif') {
-                fileExtension = 'gif';
-            } else {
-                console.error('Unsupported file type:', mimeType);
-                return;
-            }
-
-            // Tạo đối tượng File từ Blob
-            const fileName = `image.${fileExtension}`;
-            const file = new File([response.data], fileName, { type: mimeType });
-
-            // Lưu file vào state
-            setImage(file);
-        } catch (error) {
-            console.error('Error fetching the file:', error);
-        }
-    };
-
-    const handleImageChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);
-            setUrlImage(URL.createObjectURL(e.target.files[0]));
-        } else {
-            setImage(null);
-        }
-    }
 
     const handleSubmit = async (e, token) => {
         e.preventDefault();
-        const data = { email, username, phonenumber, address, gender, birthdate, image };
+        const data = { email, username, phonenumber, address, gender, birthdate };
         try {
-            const res = await axios.post(`http://localhost:8080/api/users/${userId}`, data, {
+            const res = await axios.post(`${process.env.REACT_APP_API_PATH}/api/users/${userId}`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`,  // Thêm token vào header
-                    'Content-Type': 'multipart/form-data'
                 }
             })
+            console.log('res: ', res.data)
             if (res.data.errCode === 0) {
                 const newUsers = [...users];
                 newUsers[index] = res.data.data;
@@ -109,31 +60,32 @@ function ManageUser() {
             if (err1.status === 403) {
                 if (refreshToken) {
                     try {
-                        const res2 = await axios.post('http://localhost:8080/api/refresh-token', {
+                        const res2 = await axios.post(`${process.env.REACT_APP_API_PATH}/api/refresh-token`, {
                             refreshToken, id, roleId
                         })
                         const newToken = res2.data.accessToken;
                         localStorage.setItem('token', newToken);
-                        handleSubmit(e, newToken);
+                        await handleSubmit(e, newToken);
                     } catch (err2) {
+                        localStorage.clear();
                         navigate('/login');
                     }
                 } else {
+                    localStorage.clear();
                     navigate('/login');
                 }
             }
             if (err1.status === 401) {
+                localStorage.clear();
                 navigate('/login');
             }
 
         }
     }
 
-
-
     const handleDelete = async (userId, token) => {
         try {
-            const res = await axios.delete(`http://localhost:8080/api/users/${userId}`, {
+            const res = await axios.delete(`${process.env.REACT_APP_API_PATH}/api/users/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -146,20 +98,23 @@ function ManageUser() {
             if (e.status === 403) {
                 if (refreshToken) {
                     try {
-                        const res2 = await axios.post('http://localhost:8080/api/refresh-token', {
+                        const res2 = await axios.post(`${process.env.REACT_APP_API_PATH}/api/refresh-token`, {
                             refreshToken, id, roleId
                         })
                         const newToken = res2.data.accessToken;
                         localStorage.setItem('token', newToken);
-                        handleDelete(userId, newToken);
+                        await handleDelete(userId, newToken);
                     } catch (e) {
+                        localStorage.clear();
                         navigate('/login');
                     }
                 } else {
+                    localStorage.clear();
                     navigate('/login');
                 }
             }
             if (e.status === 401) {
+                localStorage.clear();
                 navigate('/login');
             }
         }
@@ -173,14 +128,17 @@ function ManageUser() {
     };
 
     const convertStringToDate = (dateString) => {
+        if (!dateString) {
+            return new Date();
+        }
         const [year, month, day] = dateString.split('-');
-        return new Date(year, month - 1, day); // Lưu ý: tháng trong JavaScript là từ 0-11
+        return new Date(year, month - 1, day);
     };
 
     useEffect(() => {
         async function getAllUsers(token) {
             try {
-                const res1 = await axios.get('http://localhost:8080/api/users', {
+                const res1 = await axios.get(`${process.env.REACT_APP_API_PATH}/api/users`, {
                     headers: {
                         'Authorization': `Bearer ${token}`  // Thêm token vào header
                     }
@@ -192,20 +150,23 @@ function ManageUser() {
                 if (e.status === 403) {
                     if (refreshToken) {
                         try {
-                            const res2 = await axios.post('http://localhost:8080/api/refresh-token', {
+                            const res2 = await axios.post(`${process.env.REACT_APP_API_PATH}/api/refresh-token`, {
                                 refreshToken, id, roleId
                             })
                             const newToken = res2.data.accessToken;
                             localStorage.setItem('token', newToken);
-                            getAllUsers(newToken, navigate);
+                            await getAllUsers(newToken, navigate);
                         } catch (e) {
+                            localStorage.clear();
                             navigate('/login');
                         }
                     } else {
+                        localStorage.clear();
                         navigate('/login');
                     }
                 }
                 if (e.status === 401) {
+                    localStorage.clear();
                     navigate('/login');
                 }
             }
@@ -217,7 +178,9 @@ function ManageUser() {
             <AdminSidebars />
             <div className='user-content'>
                 <AdminHeader />
-                <div className='title'>Quản lý người dùng</div>
+                <div className='title'>
+                    <span>Quản lý người dùng</span>
+                </div>
                 <Table striped bordered hover className='table-container'>
                     <thead >
                         <tr>
@@ -241,7 +204,7 @@ function ManageUser() {
                                     <td>{user.phonenumber}</td>
                                     <td>{user.birthdate}</td>
                                     <td>{user.address}</td>
-                                    <td>{user.genderData.value}</td>
+                                    <td>{user.gender && user.genderData.value}</td>
                                     <td>
                                         <button className='btn btn-warning' onClick={() => handleShow(user, index)}>Xem</button>
                                         <button className='btn btn-danger' onClick={() => handleDelete(user.id, token)}>Xóa</button>
@@ -264,7 +227,7 @@ function ManageUser() {
                         <form className='form-control model-form'>
                             <div className="form-group email">
                                 <label>Email: </label>
-                                <input type="email" className="form-control" value={email} readOnly id="email" placeholder="Nhập email" />
+                                <input type="email" className="form-control" onChange={(e) => setEmail(e.target.value)} value={email} id="email" placeholder="Nhập email" />
                             </div>
                             <div className="form-group username">
                                 <label>Họ và tên</label>
@@ -295,19 +258,9 @@ function ManageUser() {
                                     <select className="form-select" value={gender} onChange={(e) => setGender(e.target.value)}>
                                         <option value=''>Chọn giới tính</option>
                                         <option value='M'>Nam</option>
-                                        <option value='N'>Nữ</option>
+                                        <option value='F'>Nữ</option>
                                         <option value='O'>Khác</option>
                                     </select>
-                                </div>
-                            </div>
-                            <div className='form-group input-image'>
-                                <label>Hình ảnh</label>
-                                <div className='input-container'>
-                                    <input type='file' files={[]} className='form-control file' onChange={(e) => handleImageChange(e)} placeholder='Chọn ảnh' ></input>
-                                    <div className='preview-img'
-                                        style={{ backgroundImage: `url(${urlImage})` }}
-                                    >
-                                    </div>
                                 </div>
                             </div>
                         </form>

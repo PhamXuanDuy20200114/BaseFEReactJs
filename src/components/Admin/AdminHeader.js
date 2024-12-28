@@ -5,16 +5,13 @@ import { IoInformationCircleSharp } from "react-icons/io5";
 function AdminHeader() {
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('id');
-        localStorage.removeItem('roleId');
+        localStorage.clear();
         navigate('/login');
     }
     return (
         <div className="header-container">
             <div className="header-title">
-                Hello Admin
+                Xin chào Quản trị viên
             </div>
             <div>
                 <button className="btn info"><IoInformationCircleSharp /> Thông tin</button>

@@ -1,0 +1,80 @@
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4895b4;
+    opacity: 0.8;
+
+    .register-form {
+        color: #193B48;
+        background: #fff;
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+
+        .group-item {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .item {
+                width: 48%;
+            }
+
+            .email {
+                width: 100%;
+            }
+
+            .birthday {
+                width: 30%;
+            }
+
+            .gender {
+                width: 25%;
+            }
+
+            .image {
+                width: 40%;
+            }
+        }
+
+        .input-image {
+            display: flex;
+            flex-direction: column;
+
+            .input-container {
+                display: flex;
+                flex-direction: row;
+
+                .file {
+                    margin-right: 10px;
+                    font-size: 14px;
+                    width: 96px;
+                    height: 35px;
+                }
+
+                .preview-img {
+                    width: 80px;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+            }
+
+        }
+
+        .btn-register {
+            width: 300px;
+            background-color: #193B48;
+            border-radius: 20px;
+            margin: 20px 0;
+            color: #fff;
+            margin-left: 200px;
+
+
+            &:hover {
+                background-color: #60B4F0;
+                color: #fff;
+            }
+        }
+    }
+}

@@ -20,6 +20,12 @@
             text-align: center;
         }
 
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
         .item {
             display: flex;
             flex-direction: column;
