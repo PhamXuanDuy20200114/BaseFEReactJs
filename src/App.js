@@ -23,7 +23,7 @@ function App() {
             <CustomScrollbars style={{ height: '100vh' }}>
               <Routes>
                 {roleId === 'R1' && <Route path='/' element={<Navigate to='/admin/manage-user' />} />}
-                {roleId === 'R2' && <Route path='/' element={<Navigate to='/doctor/manage-schedule' />} />}
+                {roleId === 'R2' && <Route path='/' element={<Navigate to='/doctor/info' />} />}
                 <Route path='/home' element={<HomePage />} />
                 {adminRoutes.map((route, index) => {
                   return <Route key={index} path={route.path} element={<ProtectedRoute component={route.component} acceptRole={'R1'} />} />;
