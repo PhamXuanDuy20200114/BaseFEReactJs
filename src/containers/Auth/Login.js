@@ -25,7 +25,7 @@ function Login() {
                     navigate('/admin/manage-user')
                 }
                 if (resUser.roleId === 'R2') {
-                    navigate('/doctor/manage-schedule')
+                    navigate('/doctor/info')
                 }
                 if (resUser.roleId === 'R3') {
                     navigate('/home')

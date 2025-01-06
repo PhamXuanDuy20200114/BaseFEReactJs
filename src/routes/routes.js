@@ -18,6 +18,7 @@ import ManageBooking from '../containers/Doctor/ManageBooking';
 import AllNotebook from '../containers/User/NotebookPage/AllNotebook';
 import NotebookDetail from '../containers/User/NotebookPage/NotebookDetail';
 import SearchPage from '../containers/User/SearchPage/SearchPage';
+import ManageInfo from '../containers/Doctor/ManageInfo';
 const routes = {
   admin: [
     {
@@ -42,6 +43,10 @@ const routes = {
     },
   ],
   doctor: [
+    {
+      path: '/doctor/info',
+      component: <ManageInfo />
+    },
     {
       path: '/doctor/manage-schedule',
       component: <ManageSchedule />

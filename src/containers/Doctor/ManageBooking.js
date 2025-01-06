@@ -18,6 +18,8 @@ function ManageBooking() {
     const [listBooking, setListBooking] = useState([]);
     const [maxListBooking, setMaxListBooking] = useState([]);
     const [date, setDate] = useState(moment().utcOffset(420).format('YYYY-MM-DD'));
+    const [result, setResult] = useState(null);
+    const [urlResult, setUrlResult] = useState('');
     const handleDateChange = (date) => {
         if (date) {
             const formattedDate = moment(date).utcOffset(420).format("YYYY-MM-DD");
@@ -66,7 +68,6 @@ function ManageBooking() {
     }
 
     const handleBooking = async (bookingId, mode, token) => {
-        console.log('bookingId: ', bookingId);
         switch (mode) {
             case 'CONFIRM':
                 try {
@@ -76,7 +77,9 @@ function ManageBooking() {
                         }
                     });
                     if (res.data.errCode === 0) {
-                        setListBooking(maxListBooking.filter(item => item.id !== id));
+                        let newListBooking = [...listBooking]
+                        newListBooking = newListBooking.filter(item => item.id !== bookingId);
+                        setListBooking(newListBooking);
                     }
                 } catch (e) {
                     console.log('Err: ', e);
@@ -88,7 +91,7 @@ function ManageBooking() {
                                 })
                                 const newToken = res2.data.accessToken;
                                 localStorage.setItem('token', newToken);
-                                await handleBooking(id, mode, newToken);
+                                await handleBooking(bookingId, mode, newToken);
                             } catch (e) {
                                 localStorage.clear();
                                 navigate('/login');
@@ -104,6 +107,7 @@ function ManageBooking() {
                     }
                 }
                 break;
+            case 'CANCEL':
             case 'REJECT':
                 try {
                     const res = await axios.post(`${process.env.REACT_APP_API_PATH}/api/bookings/reject/${id}`, { bookingId }, {
@@ -112,7 +116,9 @@ function ManageBooking() {
                         }
                     });
                     if (res.data.errCode === 0) {
-                        setListBooking(maxListBooking.filter(item => item.id !== id));
+                        let newListBooking = [...listBooking]
+                        newListBooking = newListBooking.filter(item => item.id !== bookingId);
+                        setListBooking(newListBooking);
                     }
                 } catch (e) {
                     console.log('Err: ', e);
@@ -124,7 +130,7 @@ function ManageBooking() {
                                 })
                                 const newToken = res2.data.accessToken;
                                 localStorage.setItem('token', newToken);
-                                await handleBooking(id, mode, newToken);
+                                await handleBooking(bookingId, mode, newToken);
                             } catch (e) {
                                 localStorage.clear();
                                 navigate('/login');
@@ -141,17 +147,65 @@ function ManageBooking() {
                 }
                 break;
             case 'SHOW':
-                navigate(`/doctor/booking/${id}`);
                 break;
-            case 'CANCEL':
-                break;
+        }
+    }
+
+    const handleChangeFile = (e) => {
+        if (e.target.files[0]) {
+            setResult(e.target.files[0]);
+            setUrlResult(URL.createObjectURL(e.target.files[0]));
+        } else {
+            setResult(null);
+            setUrlResult('');
+        }
+    }
+
+    const sendResult = async (bookingId, token) => {
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_API_PATH}/api/bookings/result/${id}`, { bookingId, result }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            if (res.data.errCode === 0) {
+                const newListBooking = [...maxListBooking];
+                const index = newListBooking.findIndex(item => item.id === bookingId);
+                newListBooking[index].result = res.data.data;
+                setListBooking(newListBooking);
+            }
+        } catch (e) {
+            console.log('Err: ', e);
+            if (e.status === 403) {
+                if (refreshToken) {
+                    try {
+                        const res2 = await axios.post(`${process.env.REACT_APP_API_PATH}/api/refresh-token`, {
+                            refreshToken, id, roleId
+                        })
+                        const newToken = res2.data.accessToken;
+                        localStorage.setItem('token', newToken);
+                        await sendResult(bookingId, newToken);
+                    } catch (e) {
+                        localStorage.clear();
+                        navigate('/login');
+                    }
+                } else {
+                    localStorage.clear();
+                    navigate('/login');
+                }
+            }
+            if (e.status === 401) {
+                localStorage.clear();
+                navigate('/login');
+            }
         }
     }
 
     useEffect(() => {
         async function getAllBookings(token) {
             try {
-                const res = await axios.get(`${process.env.REACT_APP_API_PATH}/api/bookings/get-by-doctor-id/${id}?status=ALL`, {
+                const res = await axios.get(`${process.env.REACT_APP_API_PATH}/api/bookings/get-by-doctor-id/${id}?status=CONFIRMED`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }
@@ -204,7 +258,6 @@ function ManageBooking() {
                             minDate={new Date()}
                         />
                         <select className='select' onChange={(e) => handleChange(e.target.value, token)}>
-                            <option value='ALL'>Tất cả</option>
                             <option value='CONFIRMED'>Sắp tới</option>
                             <option value='PENDING'>Chờ xác nhận</option>
                             <option value='DONE'>Đã qua</option>
@@ -221,6 +274,10 @@ function ManageBooking() {
                                 <th className='time col'>Thời gian</th>
                                 <th className='name col'>Khách hàng</th>
                                 <th className='reason col'>Lý do khám</th>
+                                {
+                                    status === 'DONE' &&
+                                    <th className='result col'>Kết quả</th>
+                                }
                                 <th className='action col'>Hành động</th>
                             </tr>
                         </thead>
@@ -229,10 +286,17 @@ function ManageBooking() {
                                 return (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td>{item && item.date}</td>
+                                        <td>{item && moment(item.date).format("DD/MM/YYYY")}</td>
                                         <td>{item.timeData && item.timeData.value}</td>
                                         <td>{item.patient && item.patient.username}</td>
                                         <td>{item && item.reason}</td>
+                                        {status === 'DONE' &&
+                                            <td>
+                                                <div className='input-container'>
+                                                    <input type='file' files={[]} className='form-control file' onChange={(e) => handleChangeFile(e)} placeholder='Chọn file' ></input>
+                                                    <div style={{ color: 'blue', marginTop: '5px' }} onClick={() => window.open(item.result)}>{item.result && 'Xem kết quả'}</div>
+                                                </div>
+                                            </td>}
                                         <td>
                                             {
                                                 item.status === 'PENDING' ?
@@ -241,13 +305,14 @@ function ManageBooking() {
                                                         <button className='btn btn-danger btn-2' onClick={() => handleBooking(item.id, 'REJECT', token)}>Từ chối</button>
                                                     </div>
                                                     :
-                                                    item.status === 'CANCELLED' || item.status === 'DONE' ?
+                                                    item.status === 'DONE' ?
+                                                        item.status !== 'CANCELLED' &&
                                                         <div className='btn-action'>
-                                                            <button className='btn btn-primary btn-1' onClick={() => handleBooking(item.id, 'SHOW', token)}>Xem chi tiết</button>
+                                                            <button className='btn btn-primary btn-1' onClick={() => sendResult(item.id, token)}>Cập nhật</button>
                                                         </div>
                                                         :
+                                                        item.status !== 'CANCELLED' &&
                                                         <div className='btn-action'>
-                                                            <button className='btn btn-primary btn-1' onClick={() => handleBooking(item.id, 'SHOW', token)}>Xem chi tiết</button>
                                                             <button className='btn btn-danger btn-2' onClick={() => handleBooking(item.id, 'CANCEL', token)}>Hủy lịch</button>
                                                         </div>
                                             }

@@ -204,7 +204,7 @@ function ManageUser() {
                                     <td>{user.phonenumber}</td>
                                     <td>{user.birthdate}</td>
                                     <td>{user.address}</td>
-                                    <td>{user.gender && user.genderData.value}</td>
+                                    <td>{user.genderData && user.genderData.value}</td>
                                     <td>
                                         <button className='btn btn-warning' onClick={() => handleShow(user, index)}>Xem</button>
                                         <button className='btn btn-danger' onClick={() => handleDelete(user.id, token)}>Xóa</button>

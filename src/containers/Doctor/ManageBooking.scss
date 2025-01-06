@@ -6,6 +6,8 @@
 
     .booking-content {
         width: 75%;
+        margin-left: 25%;
+        height: 100vh;
 
         .title {
             font-size: 16px;
@@ -74,12 +76,16 @@
                 }
 
                 .reason {
-                    width: 35%;
+                    width: 30%;
 
                 }
 
+                .result {
+                    width: 15%;
+                }
+
                 .action {
-                    width: 20%;
+                    width: 90px;
                 }
             }
 

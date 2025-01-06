@@ -17,6 +17,10 @@ import axios from 'axios';
 
 function BookingForm() {
     const navigate = useNavigate();
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const refreshToken = localStorage.getItem('refreshToken');
+    const roleId = localStorage.getItem('roleId');
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const doctorId = queryParams.get('doctorId');
@@ -53,13 +57,25 @@ function BookingForm() {
 
     const handleChangeRadio = (value) => {
         setCheck(value);
-        setRelativeName('');
-        setRelativePhone('');
-        setName('');
-        setPhone('');
-        setEmail('');
-        setAddress('');
-        setReason('');
+        if (id) {
+            if (value) {
+                setRelativeName(name);
+                setRelativePhone(phone);
+            } else {
+                setName(relativeName);
+                setPhone(relativePhone);
+                setRelativeName('');
+                setRelativePhone('');
+            }
+        } else {
+            setRelativeName('');
+            setRelativePhone('');
+            setName('');
+            setPhone('');
+            setEmail('');
+            setAddress('');
+            setReason('');
+        }
     }
 
     const handleChangeGender = (value) => {
@@ -184,6 +200,54 @@ function BookingForm() {
                 console.log('Err: ', e);
             }
         }
+        async function getPatientInfo(token) {
+            try {
+                const res = await axios.get(`${process.env.REACT_APP_API_PATH}/api/users/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (res.data.errCode === 0) {
+                    setRelativeName(res.data.data.username);
+                    setRelativePhone(res.data.data.phonenumber);
+                    setEmail(res.data.data.email);
+                    setAddress(res.data.data.address);
+                    if (res.data.data.genderData.value === "Nam") {
+                        setGender(true)
+                    } else {
+                        setGender(false)
+                    }
+
+                }
+            } catch (e) {
+                console.log('Err: ', e);
+                if (e.status === 403) {
+                    if (refreshToken) {
+                        try {
+                            const res2 = await axios.post(`${process.env.REACT_APP_API_PATH}/api/refresh-token`, {
+                                refreshToken, id, roleId
+                            })
+                            const newToken = res2.data.accessToken;
+                            localStorage.setItem('token', newToken);
+                            await getPatientInfo(newToken);
+                        } catch (e) {
+                            localStorage.clear();
+                            navigate('/login');
+                        }
+                    } else {
+                        localStorage.clear();
+                        navigate('/login');
+                    }
+                }
+                if (e.status === 401) {
+                    localStorage.clear();
+                    navigate('/login');
+                }
+            }
+        }
+        if (id) {
+            getPatientInfo(token);
+        }
         getDoctorInfo();
         getTimeInfo();
     }, []);
@@ -204,6 +268,9 @@ function BookingForm() {
                                 doctor && doctor.positionData && doctor.positionData.value + ', Bác sĩ ' + doctor.doctorData.username
                             }
                         </div>
+                        <div className='doctor-specialty'>{doctor.specialtyData && doctor.specialtyData.map(specialty => {
+                            return specialty.name;
+                        }).join(', ')}</div>
                         <div className='booking-time'>
                             <FaCalendarAlt className='icon' />
                             {setLabelTime()}

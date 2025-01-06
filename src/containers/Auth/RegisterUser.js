@@ -80,7 +80,7 @@ function RegisterUser() {
                         <select className="form-select" value={gender} onChange={(e) => setGender(e.target.value)}>
                             <option value=''>Chọn giới tính</option>
                             <option value='M'>Nam</option>
-                            <option value='N'>Nữ</option>
+                            <option value='F'>Nữ</option>
                             <option value='O'>Khác</option>
                         </select>
                     </div>

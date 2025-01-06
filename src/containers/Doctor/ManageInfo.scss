@@ -1,0 +1,81 @@
+.doctor-info-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    background-color: #E5E9F5;
+
+    .doctor-info-content {
+        width: 75%;
+        margin-left: 25%;
+        height: 100vh;
+        .update {
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 40px;
+            margin-top: 20px;
+        }
+
+        .form-container {
+            padding: 20px 40px;
+            padding-bottom: 0px;
+            display: flex;
+            flex-direction: column;
+
+            .group-item {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+
+                .item {
+                    width: 48%;
+                }
+
+                .email {
+                    width: 100%;
+                }
+
+                .birthday {
+                    width: 30%;
+                }
+
+                .gender {
+                    width: 25%;
+                }
+
+                .image {
+                    width: 25%;
+                }
+
+                .clinic {
+                    width: 75%;
+                }
+            }
+
+            .input-image {
+                display: flex;
+                flex-direction: column;
+
+                .input-container {
+                    display: flex;
+                    flex-direction: row;
+
+                    .file {
+                        margin-right: 10px;
+                        font-size: 14px;
+                        width: 96px;
+                        height: 35px;
+                    }
+
+                    .preview-img {
+                        width: 80px;
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    }
+                }
+
+            }
+        }
+    }
+}

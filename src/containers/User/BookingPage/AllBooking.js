@@ -6,6 +6,7 @@ import { IoMdHome } from "react-icons/io";
 import HomeFooter from '../HomePage/HomeFooter';
 import HomeHeader from '../HomePage/HomeHeader';
 import moment from 'moment';
+import { fetchFile } from '../../../utils/fetchFile';
 function AllBooking() {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
@@ -65,6 +66,11 @@ function AllBooking() {
             return label;
         }
     }
+
+    const openResult = async (url) => {
+        window.open(url, '_blank'); // Mở URL trong tab mới
+    }
+
     useEffect(() => {
         async function getAllBookings(token) {
             try {
@@ -103,7 +109,7 @@ function AllBooking() {
             }
         }
         getAllBookings(token);
-    }, []);
+    }, [id]);
     return (
         <div className='bookings-container'>
             <HomeHeader />
@@ -139,6 +145,7 @@ function AllBooking() {
                                             <div className='name'>{item.doctor.doctorData && item.doctor.doctorData.username}</div>
                                             <div className='time'>{setLabelTime(item.date, item.timeData.value)}</div>
                                             <div className='address'>{item.doctor.clinicData && item.doctor.clinicData.name + '-' + item.doctor.clinicData.address}</div>
+                                            {item.status === "DONE" && <div className='result' onClick={() => openResult(item.result.replaceAll('\\', '/'))}>Kết quả</div>}
                                         </div>
                                     </div>
                                 </div>
